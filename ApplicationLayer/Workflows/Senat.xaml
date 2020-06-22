@@ -1,0 +1,416 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" this:Main.in_URL="https://www.senat.ro/legis/lista.aspx#ListaDocumente" this:Main.in_Root="https://www.senat.ro" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:sma="clr-namespace:System.Management.Automation;assembly=System.Management.Automation" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_URL" Type="InArgument(x:String)" />
+    <x:Property Name="in_LastLaw" Type="InArgument(x:String)" />
+    <x:Property Name="in_Root" Type="InArgument(x:String)" />
+    <x:Property Name="in_FolderPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_conn" Type="InArgument(ui:DatabaseConnection)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1049,4751</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="26">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Database</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Management.Automation</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="24">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>UiPath.Database</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Management.Automation</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Senat" sap:VirtualizedContainerService.HintSize="799,4586" sap2010:WorkflowViewState.IdRef="Sequence_2">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="exitWhile" />
+      <Variable x:TypeArguments="x:Int32" Name="pg" />
+      <Variable x:TypeArguments="sd:DataTable" Name="ExtractDataTable" />
+      <Variable x:TypeArguments="x:Int32" Name="count" />
+      <Variable x:TypeArguments="x:Int32" Name="counter" />
+      <Variable x:TypeArguments="sd:DataTable" Name="outputReport" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="757,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Starting extracting from Senat&quot;]" />
+    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[outputReport]" DisplayName="Execute Query get last document " ExistingDbConnection="[in_conn]" sap:VirtualizedContainerService.HintSize="757,88" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="Select Top 1 [Name of the News] from OutputReport WHERE [Source Site Name]='Senat' ORDER BY [Date of Processing] DESC">
+      <ui:ExecuteQuery.Parameters>
+        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+      </ui:ExecuteQuery.Parameters>
+    </ui:ExecuteQuery>
+    <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Folder" sap:VirtualizedContainerService.HintSize="757,79" sap2010:WorkflowViewState.IdRef="CreateDirectory_1" Path="[Path.Combine(in_FolderPath, datetime.Now.ToString(&quot;yyyy-MM-dd&quot;))]" />
+    <Assign DisplayName="Assign in_FolderPath" sap:VirtualizedContainerService.HintSize="757,60" sap2010:WorkflowViewState.IdRef="Assign_13">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[in_FolderPath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Path.Combine(in_FolderPath, datetime.Now.ToString("yyyy-MM-dd"))]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:OpenBrowser BrowserType="{x:Null}" CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" UiBrowser="{x:Null}" DisplayName="Open Browser" sap:VirtualizedContainerService.HintSize="757,4016" sap2010:WorkflowViewState.IdRef="OpenBrowser_2" Url="[in_URL]">
+      <ui:OpenBrowser.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+          </ActivityAction.Argument>
+          <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="IE" DisplayName="Attach Browser 'Senatul'" sap:VirtualizedContainerService.HintSize="723,3915" sap2010:WorkflowViewState.IdRef="BrowserScope_5" InformativeScreenshot="5435849576c6b5a8bf46862f98e8f9dd" Selector="&lt;html title='Senatul României' /&gt;">
+            <ui:BrowserScope.Body>
+              <ActivityAction x:TypeArguments="x:Object">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="689,3769" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                  <Sequence.Variables>
+                    <Variable x:TypeArguments="x:String" Name="dtString" />
+                    <Variable x:TypeArguments="x:Int32" Name="i" />
+                    <Variable x:TypeArguments="x:String" Name="legeNr" />
+                    <Variable x:TypeArguments="x:String" Name="outputLaws" />
+                    <Variable x:TypeArguments="x:String" Name="laws" />
+                    <Variable x:TypeArguments="x:Int32" Name="counterPg" />
+                    <Variable x:TypeArguments="s:String[]" Name="lawsArr" />
+                  </Sequence.Variables>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:InjectJsScript ScriptOutput="{x:Null}" DisplayName="Inject Js Script 'senat'" sap:VirtualizedContainerService.HintSize="647,134" sap2010:WorkflowViewState.IdRef="InjectJsScript_5" InputParameter="2020" ScriptCode="Scripts\Senat\setYearAndSearch.js">
+                    <ui:InjectJsScript.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="2231cc61-ec69-48fe-9138-0478da5787df" InformativeScreenshot="e2a4a4168f98ed32357889cd8028a562" Selector="&lt;webctrl id='ctl00_B_Center_Lista_ddAni' tag='SELECT' /&gt;" WaitForReady="INTERACTIVE">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                      </ui:Target>
+                    </ui:InjectJsScript.Target>
+                  </ui:InjectJsScript>
+                  <Assign DisplayName="Assign counterPg" sap:VirtualizedContainerService.HintSize="647,60" sap2010:WorkflowViewState.IdRef="Assign_9">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Int32">[counterPg]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Int32">1</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:InterruptibleDoWhile DisplayName="Do While" sap:VirtualizedContainerService.HintSize="647,1174" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_1">
+                    <ui:InterruptibleDoWhile.Body>
+                      <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="611,1009" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Delay Duration="00:00:03" sap:VirtualizedContainerService.HintSize="569,22" sap2010:WorkflowViewState.IdRef="Delay_3" />
+                        <Assign sap:VirtualizedContainerService.HintSize="569,60" sap2010:WorkflowViewState.IdRef="Assign_17">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[in_LastLaw]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[outputReport.Rows(0)(0).ToString]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:InjectJsScript DisplayName="Inject Js Script 'tabel'" sap:VirtualizedContainerService.HintSize="569,134" sap2010:WorkflowViewState.IdRef="InjectJsScript_7" InputParameter="[in_LastLaw]" ScriptCode="Scripts\Senat\getLawsNumber.js">
+                          <ui:InjectJsScript.ScriptOutput>
+                            <OutArgument x:TypeArguments="x:String">[outputLaws]</OutArgument>
+                          </ui:InjectJsScript.ScriptOutput>
+                          <ui:InjectJsScript.Target>
+                            <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="9523bd7f-65cc-4edb-8da5-4d10342c3937" InformativeScreenshot="670458b279305038a5fa9aa26ae2417a" Selector="&lt;webctrl id='ctl00_B_Center_Lista_grdLista' tag='TABLE' /&gt;&lt;webctrl aaname='Numar' tag='TH' /&gt;" WaitForReady="INTERACTIVE">
+                              <ui:Target.TimeoutMS>
+                                <InArgument x:TypeArguments="x:Int32" />
+                              </ui:Target.TimeoutMS>
+                            </ui:Target>
+                          </ui:InjectJsScript.Target>
+                        </ui:InjectJsScript>
+                        <Assign DisplayName="Assign count" sap:VirtualizedContainerService.HintSize="569,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Int32">[count]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Int32">[outputLaws.length() - outputLaws.replace(",","").length()]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <If Condition="[counterPg =1]" DisplayName="If counterPg = 1" sap:VirtualizedContainerService.HintSize="569,207" sap2010:WorkflowViewState.IdRef="If_2">
+                          <If.Then>
+                            <Assign DisplayName="Assign laws" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_11">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[laws]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[outputLaws]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </If.Then>
+                          <If.Else>
+                            <Assign DisplayName="Assign laws" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_8">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[laws]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[laws +","+ outputLaws]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </If.Else>
+                        </If>
+                        <Assign DisplayName="Assign counterPg" sap:VirtualizedContainerService.HintSize="569,60" sap2010:WorkflowViewState.IdRef="Assign_10">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Int32">[counterPg]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Int32">[counterPg + 1]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:InjectJsScript ScriptOutput="{x:Null}" DisplayName="Inject Js Script 'pages'" sap:VirtualizedContainerService.HintSize="569,134" sap2010:WorkflowViewState.IdRef="InjectJsScript_8" InputParameter="[counterPg.ToString]" ScriptCode="Scripts\Senat\setNextPage.js">
+                          <ui:InjectJsScript.Target>
+                            <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="2231cc61-ec69-48fe-9138-0478da5787df" InformativeScreenshot="980bb8176a3e337bd3188e25aa08a4d4" Selector="&lt;webctrl id='ctl00_B_Center_Lista_grdLista' tag='TABLE' /&gt;&lt;webctrl tag='TD' aaname='12*' colName='Nr.' /&gt;" WaitForReady="INTERACTIVE">
+                              <ui:Target.TimeoutMS>
+                                <InArgument x:TypeArguments="x:Int32" />
+                              </ui:Target.TimeoutMS>
+                            </ui:Target>
+                          </ui:InjectJsScript.Target>
+                        </ui:InjectJsScript>
+                      </Sequence>
+                    </ui:InterruptibleDoWhile.Body>
+                    <ui:InterruptibleDoWhile.Condition>
+                      <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="count = 4" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_1" />
+                    </ui:InterruptibleDoWhile.Condition>
+                  </ui:InterruptibleDoWhile>
+                  <Assign DisplayName="Assign char for laws" sap:VirtualizedContainerService.HintSize="647,60" sap2010:WorkflowViewState.IdRef="Assign_12">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="s:String[]">[lawsArr]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="s:String[]">[laws.Split(","C)]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign DisplayName="Assign counter" sap:VirtualizedContainerService.HintSize="647,60" sap2010:WorkflowViewState.IdRef="Assign_16">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Int32">[counter]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Int32">1</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="647,1927" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[lawsArr]">
+                    <ui:ForEach.Body>
+                      <ActivityAction x:TypeArguments="x:String">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="x:String" Name="item" />
+                        </ActivityAction.Argument>
+                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="601,1794" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                          <Sequence.Variables>
+                            <Variable x:TypeArguments="x:String" Name="docPath" />
+                          </Sequence.Variables>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="559,1702" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                            <TryCatch.Try>
+                              <If Condition="[not item.substring(0, item.IndexOf(&quot;/&quot;)) = string.Empty]" DisplayName="If there is law to be searched" sap:VirtualizedContainerService.HintSize="521,1475" sap2010:WorkflowViewState.IdRef="If_3">
+                                <If.Then>
+                                  <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,1328" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                                    <Sequence.Variables>
+                                      <Variable x:TypeArguments="x:String" Name="pwrShell" />
+                                      <Variable x:TypeArguments="x:String" Name="description" />
+                                    </Sequence.Variables>
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:InjectJsScript ScriptOutput="{x:Null}" DisplayName="Inject Js Script 'search law'" sap:VirtualizedContainerService.HintSize="334,134" sap2010:WorkflowViewState.IdRef="InjectJsScript_10" InputParameter="[item.substring(0, item.IndexOf(&quot;/&quot;))]" ScriptCode="Scripts\Senat\searchLaw.js">
+                                      <ui:InjectJsScript.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="fef3dd5a-51b8-4fa1-8f8a-00c9dd4786ec" InformativeScreenshot="f0a8cd3b7e7ff921b7f57a6b945a38b2" Selector="&lt;webctrl id='ctl00_B_Center_Lista_txtNri' tag='INPUT' /&gt;" WaitForReady="INTERACTIVE">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                        </ui:Target>
+                                      </ui:InjectJsScript.Target>
+                                    </ui:InjectJsScript>
+                                    <ui:InjectJsScript ScriptOutput="{x:Null}" DisplayName="Inject Js Script 'senat'" sap:VirtualizedContainerService.HintSize="334,134" sap2010:WorkflowViewState.IdRef="InjectJsScript_9" InputParameter="2020" ScriptCode="Scripts\Senat\setYearAndSearch.js">
+                                      <ui:InjectJsScript.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="2231cc61-ec69-48fe-9138-0478da5787df" InformativeScreenshot="e2a4a4168f98ed32357889cd8028a562" Selector="&lt;webctrl id='ctl00_B_Center_Lista_ddAni' tag='SELECT' /&gt;" WaitForReady="INTERACTIVE">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                        </ui:Target>
+                                      </ui:InjectJsScript.Target>
+                                    </ui:InjectJsScript>
+                                    <Delay Duration="00:00:10" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Delay_4" />
+                                    <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Inject Js Script 'tabel'" sap:VirtualizedContainerService.HintSize="334,134" sap2010:WorkflowViewState.IdRef="InjectJsScript_11" ScriptCode="Scripts\Senat\extractDoc.js">
+                                      <ui:InjectJsScript.ScriptOutput>
+                                        <OutArgument x:TypeArguments="x:String">[docPath]</OutArgument>
+                                      </ui:InjectJsScript.ScriptOutput>
+                                      <ui:InjectJsScript.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="9523bd7f-65cc-4edb-8da5-4d10342c3937" InformativeScreenshot="269e2959641216961de6cbe9b900bb2a" Selector="&lt;webctrl aaname='Data Acțiunea' parentid='ctl00_B_Center_Lista_pnlContents' tag='TABLE' /&gt;" WaitForReady="INTERACTIVE">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                        </ui:Target>
+                                      </ui:InjectJsScript.Target>
+                                    </ui:InjectJsScript>
+                                    <ui:GetValue ContinueOnError="{x:Null}" DisplayName="Get Text 'txt'" sap:VirtualizedContainerService.HintSize="334,106" sap2010:WorkflowViewState.IdRef="GetValue_1">
+                                      <ui:GetValue.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="1753de32-1dbb-4647-abed-b7d76b8d42b4" InformativeScreenshot="b03d281e2032c5a548eef21b497859cf" Selector="&lt;webctrl parentid='ctl00_B_Center_Lista_pnlContents' tag='P' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:GetValue.Target>
+                                      <ui:GetValue.Value>
+                                        <OutArgument x:TypeArguments="x:String">[description]</OutArgument>
+                                      </ui:GetValue.Value>
+                                    </ui:GetValue>
+                                    <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Folder" sap:VirtualizedContainerService.HintSize="334,79" sap2010:WorkflowViewState.IdRef="CreateDirectory_2" Path="[Path.Combine(in_FolderPath, counter.ToString)]" />
+                                    <Assign DisplayName="Assign pwrShell" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_14">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[pwrShell]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">["invoke-webrequest -uri "+in_Root+docPath+" -outfile "+""""+Path.Combine(Path.Combine(in_FolderPath, counter.ToString), item.Trim.Replace("/", "-")+".pdf")+""""]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <ui:InvokePowerShell x:TypeArguments="sma:PSObject" ContinueOnError="{x:Null}" CommandText="[pwrShell]" DisplayName="Invoke Power Shell" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="InvokePowerShell`1_1" IsScript="True" />
+                                    <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Non Query" ExistingDbConnection="[in_conn]" sap:VirtualizedContainerService.HintSize="334,88" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_1" Sql="INSERT Into OutputReport&#xD;&#xA;VALUES (@date, @source, @link, @nameNews, NULL, @unique, NULL, NULL, NULL, NULL, @final, @location, @namePrincipal, @linkPrincipal, @fullPath, @description);">
+                                      <ui:ExecuteNonQuery.Parameters>
+                                        <InArgument x:TypeArguments="s:DateTime" x:Key="date">
+                                          <mva:VisualBasicValue x:TypeArguments="s:DateTime" ExpressionText="datetime.Now" />
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="source">
+                                          <Literal x:TypeArguments="x:String">Senat</Literal>
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="link">
+                                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_URL" />
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="nameNews">
+                                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="item.Trim" />
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="linkNews">
+                                          <Literal x:TypeArguments="x:String">No unique link</Literal>
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:Byte" x:Key="unique">
+                                          <Literal x:TypeArguments="x:Byte" />
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="final">
+                                          <Literal x:TypeArguments="x:String">OK</Literal>
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="location">
+                                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_FolderPath" />
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="namePrincipal">
+                                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="item.Trim" />
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="linkPrincipal">
+                                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Root+docPath" />
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="fullPath">
+                                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Path.Combine(Path.Combine(in_FolderPath, counter.ToString), item.Trim.Replace(&quot;/&quot;, &quot;-&quot;)+&quot;.pdf&quot;)" />
+                                        </InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="description">
+                                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="description" />
+                                        </InArgument>
+                                      </ui:ExecuteNonQuery.Parameters>
+                                    </ui:ExecuteNonQuery>
+                                    <Assign DisplayName="Assign counter" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_15">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Int32">[counter]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Int32">[counter + 1]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                            </TryCatch.Try>
+                            <TryCatch.Catches>
+                              <Catch x:TypeArguments="s:ArgumentOutOfRangeException" sap:VirtualizedContainerService.HintSize="525,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ActivityAction x:TypeArguments="s:ArgumentOutOfRangeException">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="s:ArgumentOutOfRangeException" Name="exception" />
+                                  </ActivityAction.Argument>
+                                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Exception identified extracting &quot;+item+&quot; doc&quot;]" />
+                                </ActivityAction>
+                              </Catch>
+                            </TryCatch.Catches>
+                          </TryCatch>
+                        </Sequence>
+                      </ActivityAction>
+                    </ui:ForEach.Body>
+                  </ui:ForEach>
+                  <ui:CloseTab Browser="{x:Null}" DisplayName="Close Tab" sap:VirtualizedContainerService.HintSize="647,22" sap2010:WorkflowViewState.IdRef="CloseTab_1" />
+                </Sequence>
+              </ActivityAction>
+            </ui:BrowserScope.Body>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:BrowserScope>
+        </ActivityAction>
+      </ui:OpenBrowser.Body>
+    </ui:OpenBrowser>
+  </Sequence>
+</Activity>

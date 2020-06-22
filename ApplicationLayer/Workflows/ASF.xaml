@@ -1,0 +1,417 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="ASF_GetData" this:ASF_GetData.in_URL="https://asfromania.ro/legislatie/consultari-publice" this:ASF_GetData.in_LastLaw="PROIECT Normă privind utilizarea activului personal al participantului la un fond de pensii ocupaționale" this:ASF_GetData.in_Root="https://asfromania.ro" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:sma="clr-namespace:System.Management.Automation;assembly=System.Management.Automation" xmlns:str="clr-namespace:System.Text.RegularExpressions;assembly=System" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_URL" Type="InArgument(x:String)" />
+    <x:Property Name="in_LastLaw" Type="InArgument(x:String)" />
+    <x:Property Name="in_FolderPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_Root" Type="InArgument(x:String)" />
+    <x:Property Name="in_conn" Type="InArgument(ui:DatabaseConnection)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1240,3371</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ASF_GetData_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="26">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>UiPath.Database</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="26">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.Data.Entity</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>UiPath.Database</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="ASF_GetData" sap:VirtualizedContainerService.HintSize="1250,3206" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="trackerDt" />
+      <Variable x:TypeArguments="x:String" Name="dirPath" />
+      <Variable x:TypeArguments="x:String" Name="outputReportPath" />
+      <Variable x:TypeArguments="sd:DataTable" Name="ExtractDataTable" />
+      <Variable x:TypeArguments="sd:DataTable" Name="outputReportDT" />
+      <Variable x:TypeArguments="x:Int32" Default="1" Name="counter" />
+      <Variable x:TypeArguments="sd:DataTable" Name="outputReport" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1208,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Starting ASF&quot;]" />
+    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[outputReport]" DisplayName="Execute Query get last document " ExistingDbConnection="[in_conn]" sap:VirtualizedContainerService.HintSize="1208,88" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="Select Top 1 [Name of the News] from OutputReport WHERE [Source Site Name]='ASF' ORDER BY [Date of Processing] DESC">
+      <ui:ExecuteQuery.Parameters>
+        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+      </ui:ExecuteQuery.Parameters>
+    </ui:ExecuteQuery>
+    <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Folder" sap:VirtualizedContainerService.HintSize="1208,79" sap2010:WorkflowViewState.IdRef="CreateDirectory_2" Path="[Path.Combine(in_FolderPath, datetime.Now.ToString(&quot;yyyy-MM-dd&quot;))]" />
+    <Assign DisplayName="Assign in foderPath" sap:VirtualizedContainerService.HintSize="1208,60" sap2010:WorkflowViewState.IdRef="Assign_13">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[in_FolderPath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Path.Combine(in_FolderPath, datetime.Now.ToString("yyyy-MM-dd"))]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:OpenBrowser BrowserType="{x:Null}" CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" UiBrowser="{x:Null}" DisplayName="Open Browser" sap:VirtualizedContainerService.HintSize="1208,2428" sap2010:WorkflowViewState.IdRef="OpenBrowser_1" Url="[in_URL]">
+      <ui:OpenBrowser.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+          </ActivityAction.Argument>
+          <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="IE" DisplayName="Attach Browser 'ASF'" sap:VirtualizedContainerService.HintSize="1174,2327" sap2010:WorkflowViewState.IdRef="BrowserScope_1" InformativeScreenshot="1ef53cf92fc1a6e881fd879ccdc78bab" Selector="&lt;html title='Consultări publice' /&gt;">
+            <ui:BrowserScope.Body>
+              <ActivityAction x:TypeArguments="x:Object">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="1140,2181" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:ExtractData DelayBetweenPagesMS="{x:Null}" NextLinkSelector="{x:Null}" ContinueOnError="True" DataTable="[ExtractDataTable]" DisplayName="Extract Structured Data 'laws'" ExtractMetadata="&lt;extract&gt;&lt;column name='Lege' attr='text' exact='1' attr2='href' name2='URL'&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl class='list-title' tag='td' idx='1' /&gt;&lt;webctrl tag='a' idx='1' /&gt;&lt;/column&gt;&lt;/extract&gt;" sap:VirtualizedContainerService.HintSize="1098,106" sap2010:WorkflowViewState.IdRef="ExtractData_2" MaxNumberOfResults="100" SimulateClick="True">
+                    <ui:ExtractData.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="b09d2116-4779-4a41-8c7a-74d977d7f750" InformativeScreenshot="a22fbbecf1e73eeca8e72f485d3d7000" Selector="&lt;webctrl tag='TBODY' /&gt;" WaitForReady="COMPLETE">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                      </ui:Target>
+                    </ui:ExtractData.Target>
+                  </ui:ExtractData>
+                  <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[ExtractDataTable]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="1098,1943" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+                    <ui:ForEachRow.Body>
+                      <ActivityAction x:TypeArguments="sd:DataRow">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                        </ActivityAction.Argument>
+                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="1048,1796" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <If Condition="[row(0).ToString.trim.Contains(outputReport.Rows(0)(0).ToString.Trim)]" DisplayName="If new laws have been published" sap:VirtualizedContainerService.HintSize="1006,1704" sap2010:WorkflowViewState.IdRef="If_2">
+                            <If.Then>
+                              <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="200,66" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <Assign DisplayName="Assign new last law" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_10">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[in_LastLaw]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[ExtractDataTable(0)(0).ToString]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <ui:Break sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="Break_1" />
+                              </Sequence>
+                            </If.Then>
+                            <If.Else>
+                              <ui:OpenBrowser BrowserType="{x:Null}" CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" UiBrowser="{x:Null}" DisplayName="Open Browser" sap:VirtualizedContainerService.HintSize="761,1557" sap2010:WorkflowViewState.IdRef="OpenBrowser_2" Url="[in_Root + row(1).ToString]">
+                                <ui:OpenBrowser.Body>
+                                  <ActivityAction x:TypeArguments="x:Object">
+                                    <ActivityAction.Argument>
+                                      <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                                    </ActivityAction.Argument>
+                                    <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="IE" DisplayName="Attach Browser 'PROIECT'" sap:VirtualizedContainerService.HintSize="727,1456" sap2010:WorkflowViewState.IdRef="BrowserScope_4" InformativeScreenshot="31a7f3b78e6ff322912e7d7e34fc9b5c" Selector="&lt;html title='PROIECT*' /&gt;">
+                                      <ui:BrowserScope.Body>
+                                        <ActivityAction x:TypeArguments="x:Object">
+                                          <ActivityAction.Argument>
+                                            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                                          </ActivityAction.Argument>
+                                          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="693,1310" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                                            <Sequence.Variables>
+                                              <Variable x:TypeArguments="x:String" Name="link" />
+                                              <Variable x:TypeArguments="x:Boolean" Name="containsHref" />
+                                              <Variable x:TypeArguments="x:String" Name="doc" />
+                                            </Sequence.Variables>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="651,51" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+                                              <ui:CommentOut.Body>
+                                                <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="663,595" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                  <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="outerHtml" DisplayName="Get Attribute 'innerHtml'" sap:VirtualizedContainerService.HintSize="621,134" sap2010:WorkflowViewState.IdRef="GetAttribute_2">
+                                                    <ui:GetAttribute.Result>
+                                                      <OutArgument x:TypeArguments="x:String">[link]</OutArgument>
+                                                    </ui:GetAttribute.Result>
+                                                    <ui:GetAttribute.Target>
+                                                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="a16ba213-dbf6-4850-b4be-0b5500456f8a" InformativeScreenshot="4b12e16eb56a3ddb14a7a3035ebed0ed" Selector="&lt;webctrl tag='P' innertext=' Textul integral al proiectului este disponibil AICI*' /&gt;">
+                                                        <ui:Target.TimeoutMS>
+                                                          <InArgument x:TypeArguments="x:Int32" />
+                                                        </ui:Target.TimeoutMS>
+                                                        <ui:Target.WaitForReady>
+                                                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                        </ui:Target.WaitForReady>
+                                                      </ui:Target>
+                                                    </ui:GetAttribute.Target>
+                                                  </ui:GetAttribute>
+                                                  <ui:IsMatch BuilderPattern="&quot;(?&lt;=href=\&quot;).*?(?=&quot;)&quot;" DisplayName="Is Match contains a href" sap:VirtualizedContainerService.HintSize="621,59" sap2010:WorkflowViewState.IdRef="IsMatch_1" Input="[link]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;\&quot;(?&lt;=href=\\\&quot;).*?(?=\&quot;)\&quot;&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="&quot;(?&lt;=href=\&quot;).*?(?=&quot;)&quot;" RegexOption="IgnoreCase" Result="[containsHref]" />
+                                                  <If Condition="[containsHref = true]" DisplayName="If there is a link" sap:VirtualizedContainerService.HintSize="621,230" sap2010:WorkflowViewState.IdRef="If_3">
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                    <If.Then>
+                                                      <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="200,66" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                                                        <Sequence.Variables>
+                                                          <Variable x:TypeArguments="x:String" Name="pwrShell" />
+                                                          <Variable x:TypeArguments="x:String" Name="root" />
+                                                          <Variable x:TypeArguments="x:String" Name="secundaryPath" />
+                                                          <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="pathList" />
+                                                          <Variable x:TypeArguments="x:String" Name="fileEndPoint" />
+                                                        </Sequence.Variables>
+                                                        <sap:WorkflowViewStateService.ViewState>
+                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                          </scg:Dictionary>
+                                                        </sap:WorkflowViewStateService.ViewState>
+                                                        <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Folder" sap:VirtualizedContainerService.HintSize="334,79" sap2010:WorkflowViewState.IdRef="CreateDirectory_3" Path="[Path.Combine(in_FolderPath, counter.ToString)]" />
+                                                        <ui:Matches BuilderPattern="(?&lt;=href=\&quot;).*?(?=&quot;)" DisplayName="Matches get link " sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="Matches_1" Input="[link]" IsBuilderTabModified="True" Model="[{&quot;Index&quot;:0,&quot;OperationID&quot;:&quot;LIT&quot;,&quot;OperationName&quot;:&quot;Literal&quot;,&quot;OperationValue&quot;:&quot;(?&lt;=href=\\\&quot;).*?(?=\&quot;)&quot;,&quot;QuantifierFirstValue&quot;:&quot;1&quot;,&quot;QuantifierID&quot;:&quot;EXT&quot;,&quot;QuantifierName&quot;:&quot;Exactly&quot;,&quot;QuantifierSecondValue&quot;:null}]" Pattern="(?&lt;=href=\&quot;).*?(?=&quot;)" RegexOption="IgnoreCase" Result="[pathList]" />
+                                                        <Assign DisplayName="Assign secundary path" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+                                                          <Assign.To>
+                                                            <OutArgument x:TypeArguments="x:String">[fileEndPoint]</OutArgument>
+                                                          </Assign.To>
+                                                          <Assign.Value>
+                                                            <InArgument x:TypeArguments="x:String">[in_root+pathList.first.toString]</InArgument>
+                                                          </Assign.Value>
+                                                        </Assign>
+                                                        <Assign DisplayName="Assign pwrShell" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_8">
+                                                          <Assign.To>
+                                                            <OutArgument x:TypeArguments="x:String">[pwrShell]</OutArgument>
+                                                          </Assign.To>
+                                                          <Assign.Value>
+                                                            <InArgument x:TypeArguments="x:String">["invoke-webrequest -uri "+fileEndPoint+" -outfile "+""""+Path.Combine(Path.Combine(in_FolderPath, counter.ToString), "Main.pdf")+""""]</InArgument>
+                                                          </Assign.Value>
+                                                        </Assign>
+                                                        <ui:InvokePowerShell x:TypeArguments="sma:PSObject" ContinueOnError="{x:Null}" CommandText="[pwrShell]" DisplayName="Invoke Power Shell" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="InvokePowerShell`1_1" IsScript="True" />
+                                                      </Sequence>
+                                                    </If.Then>
+                                                    <If.Else>
+                                                      <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="200,83" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                                                        <sap:WorkflowViewStateService.ViewState>
+                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                          </scg:Dictionary>
+                                                        </sap:WorkflowViewStateService.ViewState>
+                                                      </Sequence>
+                                                    </If.Else>
+                                                  </If>
+                                                </Sequence>
+                                              </ui:CommentOut.Body>
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </ui:CommentOut>
+                                            <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Inject Js Script 'extractDoc'" sap:VirtualizedContainerService.HintSize="651,134" sap2010:WorkflowViewState.IdRef="InjectJsScript_1" ScriptCode="Scripts\ASF\extractDoc.js">
+                                              <ui:InjectJsScript.ScriptOutput>
+                                                <OutArgument x:TypeArguments="x:String">[doc]</OutArgument>
+                                              </ui:InjectJsScript.ScriptOutput>
+                                              <ui:InjectJsScript.Target>
+                                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5217a5c7-e176-432b-95d8-b0136eee90eb" InformativeScreenshot="9463b93d584011e1ba8d3d71ecf8b039" Selector="&lt;webctrl id='sp-component' tag='DIV' /&gt;" WaitForReady="INTERACTIVE">
+                                                  <ui:Target.TimeoutMS>
+                                                    <InArgument x:TypeArguments="x:Int32" />
+                                                  </ui:Target.TimeoutMS>
+                                                </ui:Target>
+                                              </ui:InjectJsScript.Target>
+                                            </ui:InjectJsScript>
+                                            <If Condition="[not doc = string.Empty]" DisplayName="If doc is found" sap:VirtualizedContainerService.HintSize="651,745" sap2010:WorkflowViewState.IdRef="If_4">
+                                              <If.Then>
+                                                <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,598" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                                                  <Sequence.Variables>
+                                                    <Variable x:TypeArguments="x:String" Name="pwrShell" />
+                                                    <Variable x:TypeArguments="x:String" Name="root" />
+                                                    <Variable x:TypeArguments="x:String" Name="secundaryPath" />
+                                                    <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="pathList" />
+                                                    <Variable x:TypeArguments="x:String" Name="fileEndPoint" />
+                                                  </Sequence.Variables>
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                  <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Folder" sap:VirtualizedContainerService.HintSize="334,79" sap2010:WorkflowViewState.IdRef="CreateDirectory_4" Path="[Path.Combine(in_FolderPath, counter.ToString)]" />
+                                                  <Assign DisplayName="Assign secundary path" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_11">
+                                                    <Assign.To>
+                                                      <OutArgument x:TypeArguments="x:String">[fileEndPoint]</OutArgument>
+                                                    </Assign.To>
+                                                    <Assign.Value>
+                                                      <InArgument x:TypeArguments="x:String">[in_root+doc]</InArgument>
+                                                    </Assign.Value>
+                                                  </Assign>
+                                                  <Assign DisplayName="Assign pwrShell" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_12">
+                                                    <Assign.To>
+                                                      <OutArgument x:TypeArguments="x:String">[pwrShell]</OutArgument>
+                                                    </Assign.To>
+                                                    <Assign.Value>
+                                                      <InArgument x:TypeArguments="x:String">["invoke-webrequest -uri "+fileEndPoint+" -outfile "+""""+Path.Combine(Path.Combine(in_FolderPath, counter.ToString), "Main.pdf")+""""]</InArgument>
+                                                    </Assign.Value>
+                                                  </Assign>
+                                                  <ui:InvokePowerShell x:TypeArguments="sma:PSObject" ContinueOnError="{x:Null}" CommandText="[pwrShell]" DisplayName="Invoke Power Shell" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="InvokePowerShell`1_2" IsScript="True" />
+                                                  <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Non Query" ExistingDbConnection="[in_conn]" sap:VirtualizedContainerService.HintSize="334,88" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_1" Sql="INSERT Into OutputReport&#xA;VALUES (@date, @source, @link, @nameNews, @linkNews, @unique, NULL, NULL, NULL, NULL, @final, @location, @namePrincipal, @linkPrincipal, @fullPath);">
+                                                    <ui:ExecuteNonQuery.Parameters>
+                                                      <InArgument x:TypeArguments="s:DateTime" x:Key="date">
+                                                        <mva:VisualBasicValue x:TypeArguments="s:DateTime" ExpressionText="datetime.Now" />
+                                                      </InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="source">
+                                                        <Literal x:TypeArguments="x:String">ASF</Literal>
+                                                      </InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="link">
+                                                        <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_URL" />
+                                                      </InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="nameNews">
+                                                        <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="row(0).ToString.Trim" />
+                                                      </InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="linkNews">
+                                                        <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Root + row(1).ToString" />
+                                                      </InArgument>
+                                                      <InArgument x:TypeArguments="x:Byte" x:Key="unique">
+                                                        <Literal x:TypeArguments="x:Byte" Value="1" />
+                                                      </InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="final">
+                                                        <Literal x:TypeArguments="x:String">OK</Literal>
+                                                      </InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="location">
+                                                        <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_FolderPath" />
+                                                      </InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="namePrincipal">
+                                                        <Literal x:TypeArguments="x:String">Main.pdf</Literal>
+                                                      </InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="linkPrincipal">
+                                                        <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Root+doc" />
+                                                      </InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="fullPath">
+                                                        <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Path.Combine(Path.Combine(in_FolderPath, counter.ToString), &quot;Main.pdf&quot;)" />
+                                                      </InArgument>
+                                                    </ui:ExecuteNonQuery.Parameters>
+                                                  </ui:ExecuteNonQuery>
+                                                </Sequence>
+                                              </If.Then>
+                                              <If.Else>
+                                                <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="No principal file found" />
+                                              </If.Else>
+                                            </If>
+                                            <ui:CloseWindow Selector="{x:Null}" TimeoutMS="{x:Null}" UseWindow="{x:Null}" DisplayName="Close Window" sap:VirtualizedContainerService.HintSize="651,68" sap2010:WorkflowViewState.IdRef="CloseWindow_1" WaitForReady="INTERACTIVE" />
+                                            <Assign DisplayName="Assign increment counter" sap:VirtualizedContainerService.HintSize="651,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="x:Int32">[counter]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="x:Int32">[counter +1]</InArgument>
+                                              </Assign.Value>
+                                            </Assign>
+                                          </Sequence>
+                                        </ActivityAction>
+                                      </ui:BrowserScope.Body>
+                                    </ui:BrowserScope>
+                                  </ActivityAction>
+                                </ui:OpenBrowser.Body>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:OpenBrowser>
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                      </ActivityAction>
+                    </ui:ForEachRow.Body>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:ForEachRow>
+                </Sequence>
+              </ActivityAction>
+            </ui:BrowserScope.Body>
+          </ui:BrowserScope>
+        </ActivityAction>
+      </ui:OpenBrowser.Body>
+    </ui:OpenBrowser>
+    <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="IE" DisplayName="Attach Browser 'ASF'" sap:VirtualizedContainerService.HintSize="1208,168" sap2010:WorkflowViewState.IdRef="BrowserScope_5" InformativeScreenshot="1ef53cf92fc1a6e881fd879ccdc78bab" Selector="&lt;html title='Consultări publice' /&gt;">
+      <ui:BrowserScope.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+          </ActivityAction.Argument>
+          <ui:CloseTab Browser="{x:Null}" DisplayName="Close Tab" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="CloseTab_1" />
+        </ActivityAction>
+      </ui:BrowserScope.Body>
+    </ui:BrowserScope>
+  </Sequence>
+</Activity>

@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Activity mc:Ignorable="sap sap2010" x:Class="ValidateNLP_usingForms" this:ValidateNLP_usingForms.in_logo="Data\download.png" this:ValidateNLP_usingForms.out_resultsValidationPath="Data\Output\OutputReportProcente_validated.xlsx" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:this="clr-namespace:" xmlns:ufa="clr-namespace:UiPath.Form.Activities;assembly=UiPath.Form.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_logo" Type="InArgument(x:String)" />
+    <x:Property Name="in_outputPath" Type="InArgument(x:String)" />
+    <x:Property Name="out_resultsValidationPath" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1044,2008</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ValidateNLP_usingForms_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="48">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Windows.Forms.Integration</x:String>
+      <x:String>System.Windows.Forms</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="26">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>WindowsFormsIntegration</AssemblyReference>
+      <AssemblyReference>System.Windows.Forms</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="ValidateNLP_usingForms" sap:VirtualizedContainerService.HintSize="468,1843" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="doc64base" />
+      <Variable x:TypeArguments="x:String" Default="Banking and Finance" Name="resultNlp" />
+      <Variable x:TypeArguments="x:String" Default="75%" Name="confidenceLevel" />
+      <Variable x:TypeArguments="x:String" Name="selectedButtons" />
+      <Variable x:TypeArguments="x:String" Name="formOutput" />
+      <Variable x:TypeArguments="x:String" Name="documenttext" />
+      <Variable x:TypeArguments="x:Int32" Default="0" Name="idx" />
+      <Variable x:TypeArguments="x:Boolean" Name="filesLeft" />
+      <Variable x:TypeArguments="x:String" Name="currentFile" />
+      <Variable x:TypeArguments="x:Int32" Name="filesLeftToBeProcessed" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtReport" />
+      <Variable x:TypeArguments="scg:List(x:String)" Default="[new list(of string)]" Name="buttonsList" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ConvertLogoToBase64 workflow" sap:VirtualizedContainerService.HintSize="426,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="BusinessProcessLayer/DataLayer/ConvertLogoToBase64.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_docBase64">[doc64base]</OutArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_logo">Data\download.png</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[dtReport]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="426,87" sap2010:WorkflowViewState.IdRef="ReadRange_1" SheetName="Sheet1" WorkbookPath="[in_outputPath]" />
+    <Assign DisplayName="Assign filesLeft true" sap:VirtualizedContainerService.HintSize="426,60" sap2010:WorkflowViewState.IdRef="Assign_19">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Boolean">[filesLeft]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Sequence DisplayName="Data to populate form" sap:VirtualizedContainerService.HintSize="426,762" sap2010:WorkflowViewState.IdRef="Sequence_19">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:ReadTextFile Content="[documenttext]" DisplayName="Read Text File document text" FileName="[dtReport.rows(idx)(&quot;Full Doc Path&quot;).ToString]" sap:VirtualizedContainerService.HintSize="384,79" sap2010:WorkflowViewState.IdRef="ReadTextFile_2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </ui:ReadTextFile>
+      <Assign DisplayName="Assign current file name" sap:VirtualizedContainerService.HintSize="384,60" sap2010:WorkflowViewState.IdRef="Assign_40">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[currentFile]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[dtReport.rows(idx)("Doc").ToString]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign confidence level" sap:VirtualizedContainerService.HintSize="384,60" sap2010:WorkflowViewState.IdRef="Assign_41">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[confidenceLevel]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[dtReport.Rows(idx)("Scor NLP").ToString]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign result nlp" sap:VirtualizedContainerService.HintSize="384,60" sap2010:WorkflowViewState.IdRef="Assign_42">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[resultNlp]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[dtReport.Rows(idx)("Domeniu NLP").ToString]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Switch x:TypeArguments="x:String" DisplayName="Switch choose mapping name result NLP" Expression="[resultNlp]" sap:VirtualizedContainerService.HintSize="384,51" sap2010:WorkflowViewState.IdRef="Switch`1_2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <Assign x:Key="banking_cm" DisplayName="Assign BF mapping" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_43">
+          <Assign.To>
+            <OutArgument x:TypeArguments="x:String">[resultNlp]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="x:String">Banking and Finance</InArgument>
+          </Assign.Value>
+        </Assign>
+        <Assign x:Key="real_estate" DisplayName="Assign real estate mapping" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_44">
+          <Assign.To>
+            <OutArgument x:TypeArguments="x:String">[resultNlp]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="x:String">Real Estate</InArgument>
+          </Assign.Value>
+        </Assign>
+        <Assign x:Key="altele" DisplayName="Assign others mapping" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_45">
+          <Assign.To>
+            <OutArgument x:TypeArguments="x:String">[resultNlp]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="x:String">Others</InArgument>
+          </Assign.Value>
+        </Assign>
+      </Switch>
+      <Assign DisplayName="Decrement files left to be processed" sap:VirtualizedContainerService.HintSize="384,60" sap2010:WorkflowViewState.IdRef="Assign_46">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:Int32">[filesLeftToBeProcessed]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:Int32">[dtReport.rows.count-idx]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Increment idx" sap:VirtualizedContainerService.HintSize="384,60" sap2010:WorkflowViewState.IdRef="Assign_47">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:Int32">[idx]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:Int32">[idx+1]</InArgument>
+        </Assign.Value>
+      </Assign>
+    </Sequence>
+    <ufa:FormActivity Dismissed="{x:Null}" FormFieldsInputData="{x:Null}" TimeoutInSeconds="{x:Null}" WindowPositionLeft="{x:Null}" WindowPositionTop="{x:Null}" DisableMaximizeButton="False" DisableMinimizeButton="False" DisplayName="Create Form Validate NLP" FormFieldsOutputData="[formOutput]" FormHeight="748" FormSchema="%[{&quot;label&quot;:&quot;Logo&quot;,&quot;labelPosition&quot;:&quot;top&quot;,&quot;hidden&quot;:false,&quot;hideLabel&quot;:true,&quot;key&quot;:&quot;logo&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;container&quot;,&quot;input&quot;:true,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;defaultValue&quot;:null,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:true,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;tableView&quot;:false,&quot;modalEdit&quot;:false,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;tabindex&quot;:&quot;&quot;,&quot;disabled&quot;:false,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:null,&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;tree&quot;:true,&quot;components&quot;:[{&quot;label&quot;:&quot;HTML&quot;,&quot;tag&quot;:&quot;img&quot;,&quot;className&quot;:&quot;&quot;,&quot;attrs&quot;:[{&quot;attr&quot;:&quot;&quot;,&quot;value&quot;:&quot;&quot;}],&quot;content&quot;:&quot;&lt;div class=\&quot;content\&quot; style=\&quot;display: flex;\&quot;&gt;\n&lt;img src=\&quot;data:image/png;base64,{{data.doc64base}}\&quot; height=50 weight=50 border=\&quot;10px\&quot; style=\&quot;margin-right: 10px; display: block;\&quot;/&gt;\n&lt;div class=\&quot;text\&quot; style=\&quot;margin: 0; font-weight: bold; font-size:24px;\&quot;&gt;&lt;h4&gt;&lt;strong&gt;Validation Station for NLP Results&lt;/strong&gt;&lt;/h4&gt;&lt;/div&gt;\n&lt;/div&gt;\n&lt;br&gt;&quot;,&quot;refreshOnChange&quot;:true,&quot;hidden&quot;:false,&quot;key&quot;:&quot;html&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;htmlelement&quot;,&quot;dbIndex&quot;:false,&quot;encrypted&quot;:false,&quot;allowCalculateOverride&quot;:false,&quot;unique&quot;:false,&quot;multiple&quot;:false,&quot;persistent&quot;:false,&quot;protected&quot;:false,&quot;clearOnHide&quot;:true,&quot;redrawOn&quot;:&quot;&quot;,&quot;validate&quot;:{&quot;strictDateValidation&quot;:false,&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;input&quot;:false,&quot;tableView&quot;:false,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;defaultValue&quot;:null,&quot;refreshOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;disabled&quot;:false,&quot;autofocus&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:null,&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;id&quot;:&quot;e1llgl&quot;}],&quot;id&quot;:&quot;e2y9mqb&quot;},{&quot;columns&quot;:[{&quot;components&quot;:[{&quot;title&quot;:&quot;Document classification&quot;,&quot;collapsible&quot;:false,&quot;key&quot;:&quot;resultsFromNlp&quot;,&quot;conditional&quot;:{&quot;show&quot;:false,&quot;when&quot;:&quot;filesLeft&quot;,&quot;eq&quot;:&quot;false&quot;},&quot;type&quot;:&quot;panel&quot;,&quot;label&quot;:&quot;Document classification&quot;,&quot;input&quot;:false,&quot;tableView&quot;:false,&quot;components&quot;:[{&quot;label&quot;:&quot;Current file:&quot;,&quot;labelPosition&quot;:&quot;left-left&quot;,&quot;placeholder&quot;:&quot;&quot;,&quot;description&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;widget&quot;:{&quot;type&quot;:&quot;input&quot;},&quot;inputMask&quot;:&quot;&quot;,&quot;hidden&quot;:false,&quot;hideLabel&quot;:false,&quot;showWordCount&quot;:false,&quot;showCharCount&quot;:false,&quot;disabled&quot;:true,&quot;tableView&quot;:true,&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;pattern&quot;:&quot;&quot;,&quot;customMessage&quot;:&quot;&quot;,&quot;minLength&quot;:&quot;&quot;,&quot;maxLength&quot;:&quot;&quot;,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;errorLabel&quot;:&quot;&quot;,&quot;key&quot;:&quot;currentFileName&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;textfield&quot;,&quot;labelWidth&quot;:10,&quot;input&quot;:true,&quot;customClass&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:true,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;tooltip&quot;:&quot;&quot;,&quot;tabindex&quot;:&quot;&quot;,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;attributes&quot;:{},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;mask&quot;:false,&quot;inputType&quot;:&quot;text&quot;,&quot;inputFormat&quot;:&quot;plain&quot;,&quot;id&quot;:&quot;ejz16j&quot;,&quot;defaultValue&quot;:&quot;&quot;},{&quot;label&quot;:&quot;Number of files left to be processed:&quot;,&quot;labelPosition&quot;:&quot;left-left&quot;,&quot;placeholder&quot;:&quot;&quot;,&quot;description&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;widget&quot;:{&quot;type&quot;:&quot;input&quot;},&quot;hidden&quot;:false,&quot;hideLabel&quot;:false,&quot;disabled&quot;:true,&quot;tableView&quot;:true,&quot;delimiter&quot;:false,&quot;requireDecimal&quot;:false,&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;customMessage&quot;:&quot;&quot;,&quot;min&quot;:&quot;&quot;,&quot;max&quot;:&quot;&quot;,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false,&quot;step&quot;:&quot;any&quot;,&quot;integer&quot;:&quot;&quot;},&quot;errorLabel&quot;:&quot;&quot;,&quot;key&quot;:&quot;filesLeftToProcess&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;number&quot;,&quot;labelWidth&quot;:50,&quot;input&quot;:true,&quot;hideOnChildrenHidden&quot;:false,&quot;customClass&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:true,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;tooltip&quot;:&quot;&quot;,&quot;tabindex&quot;:&quot;&quot;,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;attributes&quot;:{},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;id&quot;:&quot;e7sx6ce&quot;,&quot;defaultValue&quot;:null},{&quot;label&quot;:&quot;Result provided by NLP:&quot;,&quot;labelPosition&quot;:&quot;left-left&quot;,&quot;placeholder&quot;:&quot;&quot;,&quot;description&quot;:&quot;This is the result provided by the NLP engine.&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;widget&quot;:{&quot;type&quot;:&quot;input&quot;},&quot;inputMask&quot;:&quot;&quot;,&quot;hidden&quot;:false,&quot;hideLabel&quot;:false,&quot;showWordCount&quot;:false,&quot;showCharCount&quot;:false,&quot;disabled&quot;:true,&quot;tableView&quot;:true,&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;pattern&quot;:&quot;&quot;,&quot;customMessage&quot;:&quot;&quot;,&quot;minLength&quot;:&quot;&quot;,&quot;maxLength&quot;:&quot;&quot;,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;errorLabel&quot;:&quot;&quot;,&quot;key&quot;:&quot;resultnlp&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;textfield&quot;,&quot;labelWidth&quot;:50,&quot;input&quot;:true,&quot;customClass&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:true,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;tooltip&quot;:&quot;&quot;,&quot;tabindex&quot;:&quot;&quot;,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;attributes&quot;:{},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;mask&quot;:false,&quot;inputType&quot;:&quot;text&quot;,&quot;inputFormat&quot;:&quot;plain&quot;,&quot;id&quot;:&quot;eetiznk&quot;,&quot;defaultValue&quot;:null},{&quot;label&quot;:&quot;Confidence Level:&quot;,&quot;labelPosition&quot;:&quot;left-left&quot;,&quot;placeholder&quot;:&quot;&quot;,&quot;description&quot;:&quot;This represents the confidence level of the NLP Result.&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;widget&quot;:{&quot;type&quot;:&quot;input&quot;},&quot;inputMask&quot;:&quot;&quot;,&quot;hidden&quot;:false,&quot;hideLabel&quot;:false,&quot;showWordCount&quot;:false,&quot;showCharCount&quot;:false,&quot;disabled&quot;:true,&quot;tableView&quot;:true,&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;pattern&quot;:&quot;&quot;,&quot;customMessage&quot;:&quot;&quot;,&quot;minLength&quot;:&quot;&quot;,&quot;maxLength&quot;:&quot;&quot;,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;errorLabel&quot;:&quot;&quot;,&quot;key&quot;:&quot;confidencelevel&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;textfield&quot;,&quot;labelWidth&quot;:20,&quot;labelMargin&quot;:10,&quot;input&quot;:true,&quot;customClass&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:true,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;tooltip&quot;:&quot;&quot;,&quot;tabindex&quot;:&quot;&quot;,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;attributes&quot;:{},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;mask&quot;:false,&quot;inputType&quot;:&quot;text&quot;,&quot;inputFormat&quot;:&quot;plain&quot;,&quot;id&quot;:&quot;e85vreh&quot;,&quot;defaultValue&quot;:null},{&quot;label&quot;:&quot;HTML&quot;,&quot;tag&quot;:&quot;p&quot;,&quot;className&quot;:&quot;&quot;,&quot;attrs&quot;:[{&quot;attr&quot;:&quot;&quot;,&quot;value&quot;:&quot;&quot;}],&quot;content&quot;:&quot;&lt;p style=\&quot;font-size: 24px;\&quot;&gt;Please select the correct classification:&lt;/p&gt;&quot;,&quot;refreshOnChange&quot;:false,&quot;hidden&quot;:false,&quot;key&quot;:&quot;html1&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;htmlelement&quot;,&quot;dbIndex&quot;:false,&quot;encrypted&quot;:false,&quot;allowCalculateOverride&quot;:false,&quot;unique&quot;:false,&quot;multiple&quot;:false,&quot;persistent&quot;:false,&quot;protected&quot;:false,&quot;clearOnHide&quot;:true,&quot;redrawOn&quot;:&quot;&quot;,&quot;validate&quot;:{&quot;strictDateValidation&quot;:false,&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;input&quot;:false,&quot;tableView&quot;:false,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;defaultValue&quot;:null,&quot;refreshOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;disabled&quot;:false,&quot;autofocus&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:null,&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;id&quot;:&quot;e9d06rl&quot;},{&quot;columns&quot;:[{&quot;components&quot;:[{&quot;label&quot;:&quot;Banking and Finance&quot;,&quot;showValidations&quot;:false,&quot;theme&quot;:&quot;primary&quot;,&quot;size&quot;:&quot;md&quot;,&quot;block&quot;:true,&quot;leftIcon&quot;:&quot;&quot;,&quot;rightIcon&quot;:&quot;fa fa-euro&quot;,&quot;disableOnInvalid&quot;:false,&quot;hidden&quot;:false,&quot;disabled&quot;:false,&quot;tableView&quot;:false,&quot;key&quot;:&quot;banking_cm&quot;,&quot;properties&quot;:{&quot;closeOnSubmit&quot;:&quot;False&quot;},&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;button&quot;,&quot;input&quot;:true,&quot;hideOnChildrenHidden&quot;:false,&quot;width&quot;:12,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;defaultValue&quot;:null,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:false,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:{&quot;type&quot;:&quot;input&quot;},&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;allowMultipleMasks&quot;:false,&quot;action&quot;:&quot;submit&quot;,&quot;dataGridLabel&quot;:true,&quot;id&quot;:&quot;epdczd6&quot;}],&quot;width&quot;:6,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0},{&quot;components&quot;:[{&quot;label&quot;:&quot;Real Estate&quot;,&quot;showValidations&quot;:false,&quot;theme&quot;:&quot;info&quot;,&quot;size&quot;:&quot;md&quot;,&quot;block&quot;:true,&quot;leftIcon&quot;:&quot;&quot;,&quot;rightIcon&quot;:&quot;fa fa-home&quot;,&quot;disableOnInvalid&quot;:false,&quot;hidden&quot;:false,&quot;disabled&quot;:false,&quot;tableView&quot;:false,&quot;key&quot;:&quot;real_estate&quot;,&quot;properties&quot;:{&quot;closeOnSubmit&quot;:&quot;False&quot;},&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;button&quot;,&quot;input&quot;:true,&quot;hideOnChildrenHidden&quot;:false,&quot;width&quot;:12,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;defaultValue&quot;:null,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:false,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:{&quot;type&quot;:&quot;input&quot;},&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;allowMultipleMasks&quot;:false,&quot;action&quot;:&quot;submit&quot;,&quot;dataGridLabel&quot;:true,&quot;id&quot;:&quot;ewxrjw&quot;}],&quot;width&quot;:6,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0}],&quot;autoAdjust&quot;:true,&quot;hideOnChildrenHidden&quot;:false,&quot;hidden&quot;:false,&quot;tableView&quot;:false,&quot;key&quot;:&quot;columns1&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;columns&quot;,&quot;dbIndex&quot;:false,&quot;encrypted&quot;:false,&quot;allowCalculateOverride&quot;:false,&quot;unique&quot;:false,&quot;multiple&quot;:false,&quot;persistent&quot;:false,&quot;protected&quot;:false,&quot;clearOnHide&quot;:false,&quot;redrawOn&quot;:&quot;&quot;,&quot;validate&quot;:{&quot;strictDateValidation&quot;:false,&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;input&quot;:false,&quot;label&quot;:&quot;Columns&quot;,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;defaultValue&quot;:null,&quot;refreshOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;disabled&quot;:false,&quot;autofocus&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:null,&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;tree&quot;:false,&quot;id&quot;:&quot;ecx36k9h&quot;},{&quot;label&quot;:&quot;Others&quot;,&quot;showValidations&quot;:false,&quot;theme&quot;:&quot;danger&quot;,&quot;size&quot;:&quot;md&quot;,&quot;block&quot;:true,&quot;leftIcon&quot;:&quot;&quot;,&quot;rightIcon&quot;:&quot;fa fa-commenting-o&quot;,&quot;disableOnInvalid&quot;:false,&quot;hidden&quot;:false,&quot;disabled&quot;:false,&quot;tableView&quot;:false,&quot;key&quot;:&quot;altele&quot;,&quot;properties&quot;:{&quot;closeOnSubmit&quot;:&quot;False&quot;},&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;button&quot;,&quot;input&quot;:true,&quot;hideOnChildrenHidden&quot;:false,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;defaultValue&quot;:null,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:false,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:{&quot;type&quot;:&quot;input&quot;},&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;allowMultipleMasks&quot;:false,&quot;action&quot;:&quot;submit&quot;,&quot;dataGridLabel&quot;:true,&quot;id&quot;:&quot;eyds6zsa&quot;}],&quot;hideOnChildrenHidden&quot;:false,&quot;width&quot;:12,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;defaultValue&quot;:null,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:false,&quot;hidden&quot;:false,&quot;clearOnHide&quot;:false,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;disabled&quot;:false,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:null,&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;tree&quot;:false,&quot;theme&quot;:&quot;default&quot;,&quot;breadcrumb&quot;:&quot;default&quot;,&quot;id&quot;:&quot;ednoygk&quot;}],&quot;width&quot;:6,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0},{&quot;components&quot;:[{&quot;title&quot;:&quot;Document&quot;,&quot;collapsible&quot;:false,&quot;key&quot;:&quot;document&quot;,&quot;conditional&quot;:{&quot;show&quot;:false,&quot;when&quot;:&quot;filesLeft&quot;,&quot;eq&quot;:&quot;False&quot;},&quot;type&quot;:&quot;panel&quot;,&quot;label&quot;:&quot;Document&quot;,&quot;input&quot;:false,&quot;tableView&quot;:false,&quot;components&quot;:[{&quot;label&quot;:&quot;Document text&quot;,&quot;labelPosition&quot;:&quot;top&quot;,&quot;placeholder&quot;:&quot;&quot;,&quot;description&quot;:&quot;&quot;,&quot;widget&quot;:{&quot;type&quot;:&quot;input&quot;},&quot;hidden&quot;:false,&quot;hideLabel&quot;:true,&quot;showWordCount&quot;:false,&quot;showCharCount&quot;:false,&quot;disabled&quot;:false,&quot;tableView&quot;:true,&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;pattern&quot;:&quot;&quot;,&quot;customMessage&quot;:&quot;&quot;,&quot;minLength&quot;:&quot;&quot;,&quot;maxLength&quot;:&quot;&quot;,&quot;minWords&quot;:&quot;&quot;,&quot;maxWords&quot;:&quot;&quot;,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;errorLabel&quot;:&quot;&quot;,&quot;key&quot;:&quot;documenttext&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;textarea&quot;,&quot;wysiwyg&quot;:false,&quot;input&quot;:true,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:true,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;tooltip&quot;:&quot;&quot;,&quot;tabindex&quot;:&quot;&quot;,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;attributes&quot;:{},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;mask&quot;:false,&quot;inputType&quot;:&quot;text&quot;,&quot;inputFormat&quot;:&quot;html&quot;,&quot;inputMask&quot;:&quot;&quot;,&quot;editor&quot;:&quot;&quot;,&quot;id&quot;:&quot;e6g33jm&quot;,&quot;defaultValue&quot;:&quot;&quot;,&quot;rows&quot;:20}],&quot;hideOnChildrenHidden&quot;:false,&quot;width&quot;:12,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;defaultValue&quot;:null,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:false,&quot;hidden&quot;:false,&quot;clearOnHide&quot;:false,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;disabled&quot;:false,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:null,&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;tree&quot;:false,&quot;theme&quot;:&quot;default&quot;,&quot;breadcrumb&quot;:&quot;default&quot;,&quot;id&quot;:&quot;e0mk0fy&quot;}],&quot;width&quot;:6,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0}],&quot;autoAdjust&quot;:true,&quot;hideOnChildrenHidden&quot;:false,&quot;hidden&quot;:false,&quot;tableView&quot;:false,&quot;key&quot;:&quot;columns&quot;,&quot;conditional&quot;:{&quot;show&quot;:false,&quot;when&quot;:&quot;filesLeft&quot;,&quot;eq&quot;:&quot;false&quot;},&quot;type&quot;:&quot;columns&quot;,&quot;dbIndex&quot;:false,&quot;encrypted&quot;:false,&quot;allowCalculateOverride&quot;:false,&quot;unique&quot;:false,&quot;multiple&quot;:false,&quot;persistent&quot;:false,&quot;protected&quot;:false,&quot;clearOnHide&quot;:false,&quot;redrawOn&quot;:&quot;&quot;,&quot;validate&quot;:{&quot;strictDateValidation&quot;:false,&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;input&quot;:false,&quot;label&quot;:&quot;Columns&quot;,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;defaultValue&quot;:null,&quot;refreshOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;disabled&quot;:false,&quot;autofocus&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:null,&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;tree&quot;:false,&quot;id&quot;:&quot;etlxxi&quot;},{&quot;html&quot;:&quot;&lt;h4 style=\&quot;text-align:center;\&quot;&gt;&lt;span class=\&quot;text-big\&quot;&gt;&lt;strong&gt;All done for today! No more files left to be classified.&lt;/strong&gt;&lt;/span&gt;&lt;/h4&gt;&lt;h4 style=\&quot;text-align:center;\&quot;&gt;&lt;strong&gt;Press \&quot;OK\&quot; to start sending the emails.&lt;/strong&gt;&lt;/h4&gt;&lt;p style=\&quot;text-align:center;\&quot;&gt;&amp;nbsp;&lt;/p&gt;&quot;,&quot;label&quot;:&quot;No more files&quot;,&quot;refreshOnChange&quot;:true,&quot;hidden&quot;:false,&quot;key&quot;:&quot;noMoreFiles&quot;,&quot;conditional&quot;:{&quot;show&quot;:true,&quot;when&quot;:&quot;filesLeft&quot;,&quot;eq&quot;:&quot;false&quot;},&quot;type&quot;:&quot;content&quot;,&quot;dbIndex&quot;:false,&quot;encrypted&quot;:false,&quot;allowCalculateOverride&quot;:false,&quot;unique&quot;:false,&quot;multiple&quot;:false,&quot;persistent&quot;:true,&quot;protected&quot;:false,&quot;clearOnHide&quot;:true,&quot;redrawOn&quot;:&quot;&quot;,&quot;validate&quot;:{&quot;strictDateValidation&quot;:false,&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;input&quot;:false,&quot;tableView&quot;:false,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;defaultValue&quot;:null,&quot;refreshOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;disabled&quot;:false,&quot;autofocus&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:null,&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;id&quot;:&quot;ebu4g6&quot;},{&quot;columns&quot;:[{&quot;components&quot;:[],&quot;width&quot;:4,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0},{&quot;components&quot;:[{&quot;label&quot;:&quot;OK (Send emails)&quot;,&quot;showValidations&quot;:false,&quot;theme&quot;:&quot;primary&quot;,&quot;size&quot;:&quot;md&quot;,&quot;block&quot;:true,&quot;leftIcon&quot;:&quot;glyphicon glyphicon-thumbs-up&quot;,&quot;rightIcon&quot;:&quot;&quot;,&quot;disableOnInvalid&quot;:true,&quot;hidden&quot;:false,&quot;disabled&quot;:false,&quot;tableView&quot;:true,&quot;key&quot;:&quot;close&quot;,&quot;properties&quot;:{&quot;closeOnSubmit&quot;:&quot;True&quot;},&quot;conditional&quot;:{&quot;show&quot;:true,&quot;when&quot;:&quot;filesLeft&quot;,&quot;eq&quot;:&quot;false&quot;},&quot;type&quot;:&quot;button&quot;,&quot;input&quot;:true,&quot;hideOnChildrenHidden&quot;:false,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;defaultValue&quot;:null,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:false,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:{&quot;type&quot;:&quot;input&quot;},&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;validate&quot;:{&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;allowMultipleMasks&quot;:false,&quot;action&quot;:&quot;submit&quot;,&quot;dataGridLabel&quot;:true,&quot;id&quot;:&quot;e75alfe&quot;}],&quot;width&quot;:4,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0},{&quot;components&quot;:[],&quot;width&quot;:4,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0}],&quot;autoAdjust&quot;:false,&quot;hideOnChildrenHidden&quot;:false,&quot;hidden&quot;:false,&quot;tableView&quot;:false,&quot;key&quot;:&quot;columns2&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;columns&quot;,&quot;dbIndex&quot;:false,&quot;encrypted&quot;:false,&quot;allowCalculateOverride&quot;:false,&quot;unique&quot;:false,&quot;multiple&quot;:false,&quot;persistent&quot;:false,&quot;protected&quot;:false,&quot;clearOnHide&quot;:false,&quot;redrawOn&quot;:&quot;&quot;,&quot;validate&quot;:{&quot;strictDateValidation&quot;:false,&quot;required&quot;:false,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;input&quot;:false,&quot;label&quot;:&quot;Columns&quot;,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;defaultValue&quot;:null,&quot;refreshOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;top&quot;,&quot;description&quot;:&quot;&quot;,&quot;errorLabel&quot;:&quot;&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;hideLabel&quot;:false,&quot;tabindex&quot;:&quot;&quot;,&quot;disabled&quot;:false,&quot;autofocus&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:null,&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;tree&quot;:false,&quot;id&quot;:&quot;exsvid&quot;},{&quot;label&quot;:&quot;filesLeft&quot;,&quot;description&quot;:&quot;&quot;,&quot;hidden&quot;:true,&quot;hideLabel&quot;:false,&quot;disabled&quot;:true,&quot;tableView&quot;:true,&quot;defaultValue&quot;:false,&quot;validate&quot;:{&quot;required&quot;:false,&quot;customMessage&quot;:&quot;&quot;,&quot;custom&quot;:&quot;&quot;,&quot;customPrivate&quot;:false,&quot;strictDateValidation&quot;:false,&quot;multiple&quot;:false,&quot;unique&quot;:false},&quot;errorLabel&quot;:&quot;&quot;,&quot;key&quot;:&quot;filesLeft&quot;,&quot;conditional&quot;:{&quot;show&quot;:null,&quot;when&quot;:null,&quot;eq&quot;:&quot;&quot;},&quot;type&quot;:&quot;checkbox&quot;,&quot;input&quot;:true,&quot;placeholder&quot;:&quot;&quot;,&quot;prefix&quot;:&quot;&quot;,&quot;customClass&quot;:&quot;&quot;,&quot;suffix&quot;:&quot;&quot;,&quot;multiple&quot;:false,&quot;protected&quot;:false,&quot;unique&quot;:false,&quot;persistent&quot;:true,&quot;clearOnHide&quot;:true,&quot;refreshOn&quot;:&quot;&quot;,&quot;redrawOn&quot;:&quot;&quot;,&quot;modalEdit&quot;:false,&quot;labelPosition&quot;:&quot;right&quot;,&quot;tooltip&quot;:&quot;&quot;,&quot;tabindex&quot;:&quot;&quot;,&quot;autofocus&quot;:false,&quot;dbIndex&quot;:false,&quot;customDefaultValue&quot;:&quot;&quot;,&quot;calculateValue&quot;:&quot;&quot;,&quot;widget&quot;:null,&quot;attributes&quot;:{},&quot;validateOn&quot;:&quot;change&quot;,&quot;overlay&quot;:{&quot;style&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;top&quot;:&quot;&quot;,&quot;width&quot;:&quot;&quot;,&quot;height&quot;:&quot;&quot;},&quot;allowCalculateOverride&quot;:false,&quot;encrypted&quot;:false,&quot;showCharCount&quot;:false,&quot;showWordCount&quot;:false,&quot;properties&quot;:{},&quot;allowMultipleMasks&quot;:false,&quot;inputType&quot;:&quot;checkbox&quot;,&quot;dataGridLabel&quot;:true,&quot;value&quot;:&quot;&quot;,&quot;name&quot;:&quot;&quot;,&quot;id&quot;:&quot;e6jkwqx&quot;}]" FormTheme="{}{&quot;Activities&quot;:[&quot;FORMS&quot;],&quot;Id&quot;:&quot;1588948843613&quot;,&quot;Name&quot;:&quot;Deloitte&quot;,&quot;BaseCss&quot;:&quot;../../assets/css/themes/united.bootstrap.min.css&quot;,&quot;ImageSrc&quot;:&quot;../../assets/themeicons/united.png&quot;,&quot;OverrideCssUrl&quot;:&quot;&quot;,&quot;UserStyleOverrides&quot;:&quot;body , h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {\n                      font-family : Georgia !important;\n                    }table, .btn, .form-control {\n                      font-size : 19px !important;\n                     }h1 {\n                      font-size : 41px !important;\n                    }h2 {\n                      font-size : 35px !important;\n                    }h3 {\n                      font-size : 29px !important;\n                    }h4 {\n                      font-size : 23px !important;\n                    }h5 {\n                      font-size : 19px !important;\n                    }h6 {\n                      font-size : 17px !important;\n                    }body {\n      background:  #ffffff !important;\n      font-size : 19px !important;\n      font-family : Georgia !important;\n      color : #333333 !important\n    } .panel-default {\n                        background:  #ffffff !important;\n                        border-color :  #dddddd !important;\n                      }\n                 .panel-default &gt; .panel-heading {\n                        background-color: #f5f5f5 !important;\n                        color : #333333 !important\n                      }.btn-primary {\n                          background:  #86bc25 !important;\n                          border-color:  #86bc25 !important;\n                          color:  #ffffff !important;\n                      } .btn-primary:hover {\n                          background:  #86bc25 !important;\n                          color:  #ffffff !important;\n                      } .btn-default {\n                        background:   !important;\n                        border-color:   !important;\n                        color:   !important;\n                      } .btn-default:hover {\n                        background:   !important;\n                        color:   !important;\n                      } &quot;,&quot;Properties&quot;:&quot;&quot;,&quot;IsCustomTheme&quot;:true,&quot;Version&quot;:1,&quot;ThemeVersion&quot;:1}" FormTitle="Validate NLP" FormWidth="1272" GenerateInputFields="False" sap:VirtualizedContainerService.HintSize="426,192" sap2010:WorkflowViewState.IdRef="FormActivity_1" IsReadOnly="False" MaxColumnsForSchemaGeneration="6" RunDoBlockFirst="False" RunInIsolatedMode="True" SelectedButton="[selectedButtons]">
+      <ufa:FormActivity.Body>
+        <ActivityAction x:TypeArguments="scg:Dictionary(x:String, x:Object)">
+          <Sequence sap:VirtualizedContainerService.HintSize="200,66" sap2010:WorkflowViewState.IdRef="Sequence_18">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If Condition="[idx &gt; 0 andalso selectedButtons&lt;&gt;&quot;close&quot;]" DisplayName="If not first row and button is not close add to list" sap:VirtualizedContainerService.HintSize="832,52.8" sap2010:WorkflowViewState.IdRef="If_2">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <AddToCollection x:TypeArguments="x:String" Collection="[buttonsList]" DisplayName="Add button to buttons list" sap:VirtualizedContainerService.HintSize="200,22.4" sap2010:WorkflowViewState.IdRef="AddToCollection`1_2" Item="[selectedButtons]" />
+              </If.Then>
+            </If>
+            <If Condition="[idx &lt; dtReport.rows.Count]" DisplayName="If files left to be processed" sap:VirtualizedContainerService.HintSize="832,1164" sap2010:WorkflowViewState.IdRef="If_1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence DisplayName="Data to populate form" sap:VirtualizedContainerService.HintSize="525.6,1014.4" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:ReadTextFile Content="[documenttext]" DisplayName="Read Text File document text" FileName="[dtReport.rows(idx)(&quot;Full Doc Path&quot;).ToString]" sap:VirtualizedContainerService.HintSize="484,80.8" sap2010:WorkflowViewState.IdRef="ReadTextFile_1">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:ReadTextFile>
+                  <If Condition="[documenttext.Length&gt;5000]" sap:VirtualizedContainerService.HintSize="484,209.6" sap2010:WorkflowViewState.IdRef="If_3">
+                    <If.Then>
+                      <Assign sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_48">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:String">[documenttext]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:String">[documenttext.Substring(0,5000)]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                    </If.Then>
+                  </If>
+                  <Assign DisplayName="Assign current file name" sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_31">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[currentFile]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[dtReport.rows(idx)("Doc").ToString]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign DisplayName="Assign confidence level" sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_35">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[confidenceLevel]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[dtReport.Rows(idx)("Scor NLP").ToString]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign DisplayName="Assign result nlp" sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_36">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[resultNlp]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[dtReport.Rows(idx)("Domeniu NLP").ToString]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Switch x:TypeArguments="x:String" DisplayName="Switch choose mapping name result NLP" Expression="[resultNlp]" sap:VirtualizedContainerService.HintSize="484,51" sap2010:WorkflowViewState.IdRef="Switch`1_1">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Assign x:Key="banking_cm" DisplayName="Assign BF mapping" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_37">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[resultNlp]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">Banking and Finance</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <Assign x:Key="real_estate" DisplayName="Assign real estate mapping" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_38">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[resultNlp]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">Real Estate</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <Assign x:Key="altele" DisplayName="Assign others mapping" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_39">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[resultNlp]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">Others</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </Switch>
+                  <Assign DisplayName="Decrement files left to be processed" sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_33">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Int32">[filesLeftToBeProcessed]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Int32">[dtReport.rows.count-idx]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign DisplayName="Increment idx" sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_32">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Int32">[idx]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Int32">[idx+1]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Assign DisplayName="Assign file left false" sap:VirtualizedContainerService.HintSize="262.4,60" sap2010:WorkflowViewState.IdRef="Assign_22">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">[filesLeft]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Else>
+            </If>
+          </Sequence>
+        </ActivityAction>
+      </ufa:FormActivity.Body>
+      <ufa:FormActivity.DelayBody>
+        <ActivityAction x:TypeArguments="scg:Dictionary(x:String, x:Object)">
+          <Delay Duration="00:00:00.2500000" sap2010:WorkflowViewState.IdRef="Delay_1" />
+        </ActivityAction>
+      </ufa:FormActivity.DelayBody>
+      <ufa:FormActivity.FormFieldsCollection>
+        <InArgument x:TypeArguments="x:String" x:Key="doc64base">[doc64base]</InArgument>
+        <InOutArgument x:TypeArguments="x:String" x:Key="resultnlp">[resultNlp]</InOutArgument>
+        <InOutArgument x:TypeArguments="x:String" x:Key="confidencelevel">[confidenceLevel]</InOutArgument>
+        <InOutArgument x:TypeArguments="x:String" x:Key="documenttext">[documenttext]</InOutArgument>
+        <InOutArgument x:TypeArguments="x:Boolean" x:Key="filesLeft">[filesLeft]</InOutArgument>
+        <InOutArgument x:TypeArguments="x:String" x:Key="currentFileName">[currentFile]</InOutArgument>
+        <InOutArgument x:TypeArguments="x:Int32" x:Key="filesLeftToProcess">[filesLeftToBeProcessed]</InOutArgument>
+      </ufa:FormActivity.FormFieldsCollection>
+    </ufa:FormActivity>
+    <ui:ForEachRow CurrentIndex="[idx]" DataTable="[dtReport]" DisplayName="For Each Row, add button selected" sap:VirtualizedContainerService.HintSize="426,208" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+      <ui:ForEachRow.Body>
+        <ActivityAction x:TypeArguments="sd:DataRow">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+          </ActivityAction.Argument>
+          <Assign DisplayName="Assign button list to row" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_49">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Object">[row("Domeniu Real")]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Object">[buttonsList(idx)]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </ActivityAction>
+      </ui:ForEachRow.Body>
+    </ui:ForEachRow>
+    <ui:WriteRange AddHeaders="True" DataTable="[dtReport]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="426,115" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="Sheet1" StartingCell="A1" WorkbookPath="[out_resultsValidationPath]" />
+  </Sequence>
+</Activity>

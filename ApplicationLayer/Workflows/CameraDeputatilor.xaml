@@ -1,0 +1,418 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" this:Main.in_URL="www.cdep.ro/pls/proiecte/upl_pck2015.lista?cam=2&amp;anp=" this:Main.in_LastLaw="PL-x 305/20.05.2020" this:Main.in_FolderPath="Data\CameraDeputatilor" this:Main.in_Root="www.cdep.ro" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:sma="clr-namespace:System.Management.Automation;assembly=System.Management.Automation" xmlns:str="clr-namespace:System.Text.RegularExpressions;assembly=System" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_URL" Type="InArgument(x:String)" />
+    <x:Property Name="in_LastLaw" Type="InArgument(x:String)" />
+    <x:Property Name="in_FolderPath" Type="InArgument(x:String)" />
+    <x:Property Name="in_Root" Type="InArgument(x:String)" />
+    <x:Property Name="in_conn" Type="InArgument(ui:DatabaseConnection)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1085,4376</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="27">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Management.Automation</x:String>
+      <x:String>UiPath.Database</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="26">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Management.Automation</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>UiPath.Database</AssemblyReference>
+      <AssemblyReference>System.Data.Entity</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="CameraDeputatilor" sap:VirtualizedContainerService.HintSize="1095,4211" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="extractDataTable" />
+      <Variable x:TypeArguments="x:String" Name="html" />
+      <Variable x:TypeArguments="str:Match" Name="pathLink" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt" />
+      <Variable x:TypeArguments="x:String" Name="dtString" />
+      <Variable x:TypeArguments="sd:DataTable" Name="outputReport" />
+      <Variable x:TypeArguments="sd:DataTable" Name="lawsToBeProcessedDT" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:Comment sap:VirtualizedContainerService.HintSize="1053,74" sap2010:WorkflowViewState.IdRef="Comment_1" Text="// Add: new last law&#xA;code comments in invoke code&#xA;annotations row for db" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1053,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Message="[&quot;Starting CameraDeputatilor&quot;]">
+      <ui:LogMessage.Level>
+        <InArgument x:TypeArguments="ui:LogLevel">
+          <Literal x:TypeArguments="ui:LogLevel" sap2010:WorkflowViewState.IdRef="Literal`1_1" Value="Info" />
+        </InArgument>
+      </ui:LogMessage.Level>
+    </ui:LogMessage>
+    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[outputReport]" DisplayName="Execute Query get last document " ExistingDbConnection="[in_conn]" sap:VirtualizedContainerService.HintSize="1053,88" sap2010:WorkflowViewState.IdRef="ExecuteQuery_2" Sql="Select Top 1 [Name of the News] from OutputReport WHERE [Source Site Name]='Camera Deputatilor' ORDER BY [Date of Processing] DESC">
+      <ui:ExecuteQuery.Parameters>
+        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+      </ui:ExecuteQuery.Parameters>
+    </ui:ExecuteQuery>
+    <Assign DisplayName="Assign in_URL" sap:VirtualizedContainerService.HintSize="1053,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[in_URL]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[in_URL+DateTime.Now.ToString("yyyy")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Folder" sap:VirtualizedContainerService.HintSize="1053,79" sap2010:WorkflowViewState.IdRef="CreateDirectory_1" Path="[Path.Combine(in_FolderPath, datetime.Now.ToString(&quot;yyyy-MM-dd&quot;))]" />
+    <Assign DisplayName="Assign in_folderPath" sap:VirtualizedContainerService.HintSize="1053,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[in_FolderPath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Path.Combine(in_FolderPath, datetime.Now.ToString("yyyy-MM-dd"))]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:OpenBrowser BrowserType="{x:Null}" CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" UiBrowser="{x:Null}" DisplayName="Open Browser" sap:VirtualizedContainerService.HintSize="1053,3427" sap2010:WorkflowViewState.IdRef="OpenBrowser_1" Url="[in_URL]">
+      <ui:OpenBrowser.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+          </ActivityAction.Argument>
+          <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="IE" DisplayName="Attach Browser 'Urmarirea procesului legislativ'" sap:VirtualizedContainerService.HintSize="1019,3326" sap2010:WorkflowViewState.IdRef="BrowserScope_1" InformativeScreenshot="e8a64127758147cb5d2f726bef1631ac" Selector="&lt;html title='Urmarirea procesului legislativ la Camera Deputatilor' /&gt;">
+            <ui:BrowserScope.Body>
+              <ActivityAction x:TypeArguments="x:Object">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="985,3180" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                  <Sequence.Variables>
+                    <Variable x:TypeArguments="x:Int32" Name="i" />
+                    <Variable x:TypeArguments="x:String" Name="html2" />
+                    <Variable x:TypeArguments="x:Int32" Name="counter" />
+                  </Sequence.Variables>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:ExtractData DelayBetweenPagesMS="{x:Null}" NextLinkSelector="{x:Null}" sap2010:Annotation.AnnotationText="extractDataTable columns: Nr, URL, Lege" ContinueOnError="True" DataTable="[extractDataTable]" DisplayName="Extract Structured Data Legi" sap:VirtualizedContainerService.HintSize="943,106" sap2010:WorkflowViewState.IdRef="ExtractData_1" MaxNumberOfResults="0" SimulateClick="True">
+                    <ui:ExtractData.ExtractMetadata>
+                      <InArgument x:TypeArguments="x:String">
+                        <Literal x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="Literal`1_2">&lt;extract&gt;&lt;row exact='1'&gt;&lt;webctrl tag='tbody' idx='1' /&gt;&lt;webctrl tag='tr' /&gt;&lt;/row&gt;&lt;column attr='text' name='Nr' exact='1' attr2='href' name2='URL'&gt;&lt;webctrl tag='tbody' idx='1' /&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='2' /&gt;&lt;webctrl tag='a' idx='1' /&gt;&lt;/column&gt;&lt;column attr='text' name='Titlu' exact='1'&gt;&lt;webctrl tag='tbody' idx='1' /&gt;&lt;webctrl tag='tr' /&gt;&lt;webctrl tag='td' idx='3' /&gt;&lt;/column&gt;&lt;/extract&gt;</Literal>
+                      </InArgument>
+                    </ui:ExtractData.ExtractMetadata>
+                    <ui:ExtractData.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="1d138333-7e6a-4613-84d4-ac70740c93bc" InformativeScreenshot="34fde32102c7a5fe8effe38751750ec1" Selector="&lt;webctrl parentid='olddiv' tag='TABLE' /&gt;" WaitForReady="COMPLETE">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                      </ui:Target>
+                    </ui:ExtractData.Target>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </ui:ExtractData>
+                  <Assign DisplayName="Assign i" sap:VirtualizedContainerService.HintSize="943,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Int32">
+                        <mva:VisualBasicReference x:TypeArguments="x:Int32" ExpressionText="i" sap2010:WorkflowViewState.IdRef="VisualBasicReference`1_1" />
+                      </OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Int32">[extractDataTable.rows.count-1]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign DisplayName="Assign counter" sap:VirtualizedContainerService.HintSize="943,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Int32">[counter]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Int32">1</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:InterruptibleWhile Condition="[not extractDataTable.rows(i)(0).toString.Trim = outputReport(0)(0).ToString]" DisplayName="While there are new laws to be processed" sap:VirtualizedContainerService.HintSize="943,2680" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_1">
+                    <ui:InterruptibleWhile.Body>
+                      <ui:OpenBrowser BrowserType="{x:Null}" CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" UiBrowser="{x:Null}" sap:VirtualizedContainerService.HintSize="907,2515" sap2010:WorkflowViewState.IdRef="OpenBrowser_2" Url="[&quot;www.cdep.ro&quot;+extractDataTable.Rows(i)(1).toString]">
+                        <ui:OpenBrowser.Body>
+                          <ActivityAction x:TypeArguments="x:Object">
+                            <ActivityAction.Argument>
+                              <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                            </ActivityAction.Argument>
+                            <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="IE" DisplayName="Attach Browser 'PL-x nr. *'" sap:VirtualizedContainerService.HintSize="873,2414" sap2010:WorkflowViewState.IdRef="BrowserScope_4" InformativeScreenshot="f5019b118cd40f6d01e14a814308ba37" Selector="&lt;html title='P?-x nr.*' /&gt;">
+                              <ui:BrowserScope.Body>
+                                <ActivityAction x:TypeArguments="x:Object">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                                  </ActivityAction.Argument>
+                                  <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="839,2268" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                                    <Sequence.Variables>
+                                      <Variable x:TypeArguments="scg:IEnumerable(str:Match)" Name="rows" />
+                                      <Variable x:TypeArguments="x:Boolean" Name="rowsBool" />
+                                      <Variable x:TypeArguments="x:String" Name="description" />
+                                    </Sequence.Variables>
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:GetValue ContinueOnError="{x:Null}" DisplayName="Get Text 'H4'" sap:VirtualizedContainerService.HintSize="797,106" sap2010:WorkflowViewState.IdRef="GetValue_1">
+                                      <ui:GetValue.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="b4cb7747-952c-4f01-9ac0-660ccbd52668" InformativeScreenshot="fd04afedeb2b39425bf5722a7ac1c019" Selector="&lt;webctrl tag='H4' parentclass='detalii-initiativa' idx='1' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:GetValue.Target>
+                                      <ui:GetValue.Value>
+                                        <OutArgument x:TypeArguments="x:String">[description]</OutArgument>
+                                      </ui:GetValue.Value>
+                                    </ui:GetValue>
+                                    <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="innerHtml" DisplayName="Get Attribute 'TABLE'" sap:VirtualizedContainerService.HintSize="797,134" sap2010:WorkflowViewState.IdRef="GetAttribute_5">
+                                      <ui:GetAttribute.Result>
+                                        <OutArgument x:TypeArguments="x:String">[html]</OutArgument>
+                                      </ui:GetAttribute.Result>
+                                      <ui:GetAttribute.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="64c762ea-fd27-4b3e-b7f0-cfc49754fbb6" InformativeScreenshot="f955dd037baa16b4e442a55913f52ed6" Selector="&lt;webctrl parentid='olddiv' tag='TABLE' rowName='Consultati:' tableCol='2' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:GetAttribute.Target>
+                                    </ui:GetAttribute>
+                                    <ui:InvokeCode ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="C# " Code="/*html represents the html element where &#xA;all relevant PDF files are stored in the first table*/&#xA;string rgxPath = &quot;&lt;tr.*?&lt;\\/tr&gt;\\s&quot;; //regex path for each row in above html element&#xA;string rgxPathLink = &quot;(?&lt;=&lt;a href=\&quot;).*?(?=\&quot;)&quot;;//regex path for document link&#xA;path = Match.Empty; //initialize path for file which will be returned&#xA;RegexOptions options = RegexOptions.Singleline;&#xA;Regex rgx = new Regex(rgxPath, options);&#xA;foreach (Match item in rgx.Matches(html)) //for each &lt;tr&gt; element in html&#xA;{&#x9;  &#xA;&#x9;string itemElement = Convert.ToString(item);&#xA;&#x9;  if(itemElement.Contains(&quot;Ordonanţa&quot;)) { //if &lt;tr&gt; contains Ordonanta&#xA;&#x9;&#x9;&#x9;var rgxLink = new Regex (@rgxPathLink);&#xA;&#x9;&#x9;&#x9;path = rgxLink.Match(itemElement); //get path from &lt;a&gt; element in that &lt;tr&gt;&#xA;&#x9;&#x9;  &#x9;break;&#xA;&#x9;  }&#xA;}&#x9;&#xA;if(path.Success)&#xA;&#x9;System.Console.WriteLine(path.Value);// if we found Ordonanta keyword, show file path&#xA;else {&#xA;&#x9;foreach(Match item in rgx.Matches(html))//did not find Ordonanta keyword in &lt;tr&gt;, try Forma keyword&#xA;&#x9;{&#x9;  &#xA;&#x9;string itemElement = Convert.ToString(item);&#xA;&#x9;  if(itemElement.Contains(&quot;Forma &quot;)) { //if &lt;tr&gt; contains &quot;Forma &quot;&#xA;&#x9;&#x9;&#x9;var rgxLink = new Regex (@rgxPathLink);&#xA;&#x9;&#x9;&#x9;path = rgxLink.Match(itemElement); //get path from &lt;a&gt; element in that &lt;tr&gt;&#xA;&#x9;&#x9;  &#x9;break;&#xA;&#x9;  }&#xA;&#x9;}&#xA;&#x9;if(path.Success)&#xA;&#x9;System.Console.WriteLine(path.Value); // if we found &quot;Forma &quot; keyword, show file path&#xA;&#x9;else&#xA;&#x9;System.Console.WriteLine(&quot;Did not find Ordonanta or Forma in first table&quot;);&#xA;}" DisplayName="Invoke code try get link from 1st table" sap:VirtualizedContainerService.HintSize="797,164" sap2010:WorkflowViewState.IdRef="InvokeCode_3" Language="CSharp">
+                                      <ui:InvokeCode.Arguments>
+                                        <InArgument x:TypeArguments="x:String" x:Key="html">[html]</InArgument>
+                                        <OutArgument x:TypeArguments="str:Match" x:Key="path">[pathLink]</OutArgument>
+                                      </ui:InvokeCode.Arguments>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:InvokeCode>
+                                    <If Condition="[pathLink.Equals(Match.Empty)]" DisplayName="If no matches found in 1st table" sap:VirtualizedContainerService.HintSize="797,577" sap2010:WorkflowViewState.IdRef="If_3">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <Sequence DisplayName="Do match.empty case" sap:VirtualizedContainerService.HintSize="376,430" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="innerHtml" DisplayName="Get Attribute 'TABLE 2'" sap:VirtualizedContainerService.HintSize="334,134" sap2010:WorkflowViewState.IdRef="GetAttribute_6">
+                                            <ui:GetAttribute.Result>
+                                              <OutArgument x:TypeArguments="x:String">[html2]</OutArgument>
+                                            </ui:GetAttribute.Result>
+                                            <ui:GetAttribute.Target>
+                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="26f37738-266d-4352-8430-493c81bbd28a" InformativeScreenshot="d3279ce86d713eda47af3b267551d271" Selector="&lt;webctrl parentid='olddiv' tag='TABLE' parentclass='program-lucru-detalii clearfix' /&gt;">
+                                                <ui:Target.TimeoutMS>
+                                                  <InArgument x:TypeArguments="x:Int32" />
+                                                </ui:Target.TimeoutMS>
+                                                <ui:Target.WaitForReady>
+                                                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                </ui:Target.WaitForReady>
+                                              </ui:Target>
+                                            </ui:GetAttribute.Target>
+                                          </ui:GetAttribute>
+                                          <ui:InvokeCode ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="C#" Code="string rgxPath = &quot;&lt;tr.*?target=\&quot;PDF\&quot;.*?&lt;\\/tr&gt;&quot;;&#xA;string rgxPathLink = &quot;(?&lt;=&lt;a href=\&quot;).*?(?=\&quot;)&quot;;&#xA;path = Match.Empty;&#xA;RegexOptions options = RegexOptions.None;&#xA;Regex rgx = new Regex(rgxPath, options);&#xA;foreach (Match item in rgx.Matches(html2))&#xA;{&#xA;&#x9;string itemElement = Convert.ToString(item);&#xA;&#x9;if(itemElement.Contains(&quot;Forma &quot;)) {&#xA;&#x9;&#x9;var rgxLink = new Regex (@rgxPathLink);&#xA;&#x9;&#x9;path = rgxLink.Match(itemElement);&#xA;&#x9;&#x9;break;&#xA;&#x9;}&#xA;}&#xA;if(path.Success)&#xA;&#x9;System.Console.WriteLine(path.Value);&#xA;" DisplayName="Invoke code try get link from 2nd table" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_2" Language="CSharp">
+                                            <ui:InvokeCode.Arguments>
+                                              <InArgument x:TypeArguments="x:String" x:Key="html2">[html2]</InArgument>
+                                              <OutArgument x:TypeArguments="str:Match" x:Key="path">[pathLink]</OutArgument>
+                                            </ui:InvokeCode.Arguments>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </ui:InvokeCode>
+                                        </Sequence>
+                                      </If.Then>
+                                      <If.Else>
+                                        <Sequence DisplayName="Do found match case" sap:VirtualizedContainerService.HintSize="200,66" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                        </Sequence>
+                                      </If.Else>
+                                    </If>
+                                    <If Condition="[pathLink.Equals(Match.Empty)]" DisplayName="If no matches found in 2nd table" sap:VirtualizedContainerService.HintSize="797,773" sap2010:WorkflowViewState.IdRef="If_4">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <Sequence DisplayName="Do match.empty case" sap:VirtualizedContainerService.HintSize="272,153" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="No principal file found" />
+                                        </Sequence>
+                                      </If.Then>
+                                      <If.Else>
+                                        <Sequence DisplayName="Do found match case" sap:VirtualizedContainerService.HintSize="480,626" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                                          <Sequence.Variables>
+                                            <Variable x:TypeArguments="x:String" Name="pwrShell" />
+                                          </Sequence.Variables>
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:CreateDirectory ContinueOnError="{x:Null}" DisplayName="Create Folder" sap:VirtualizedContainerService.HintSize="438,79" sap2010:WorkflowViewState.IdRef="CreateDirectory_2" Path="[Path.Combine(in_FolderPath, counter.ToString)]" />
+                                          <Assign DisplayName="Assign pwrShell" sap:VirtualizedContainerService.HintSize="438,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:String">[pwrShell]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:String">["invoke-webrequest -uri "+in_Root+pathLink.ToString+" -outfile "+""""+Path.Combine(Path.Combine(in_FolderPath, counter.ToString), extractDataTable.rows(i)(0).toString.Trim.Replace("/", "-")+".pdf")+""""]</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                          <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="438,315" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                                            <TryCatch.Try>
+                                              <ui:InvokePowerShell x:TypeArguments="sma:PSObject" ContinueOnError="{x:Null}" CommandText="[pwrShell]" DisplayName="Invoke Power Shell" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="InvokePowerShell`1_1" IsScript="True" />
+                                            </TryCatch.Try>
+                                            <TryCatch.Catches>
+                                              <Catch x:TypeArguments="sma:CmdletInvocationException" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                                                <sap:WorkflowViewStateService.ViewState>
+                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                  </scg:Dictionary>
+                                                </sap:WorkflowViewStateService.ViewState>
+                                                <ActivityAction x:TypeArguments="sma:CmdletInvocationException">
+                                                  <ActivityAction.Argument>
+                                                    <DelegateInArgument x:TypeArguments="sma:CmdletInvocationException" Name="exception" />
+                                                  </ActivityAction.Argument>
+                                                  <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="[pwrShell + &quot;could not save file&quot;]" />
+                                                </ActivityAction>
+                                              </Catch>
+                                            </TryCatch.Catches>
+                                            <TryCatch.Finally>
+                                              <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Non Query" ExistingDbConnection="[in_conn]" sap:VirtualizedContainerService.HintSize="334,88" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_1" Sql="INSERT Into OutputReport&#xD;&#xA;VALUES (@date, @source, @link, @nameNews, @linkNews, @unique, NULL, NULL, NULL, NULL, @final, @location, @namePrincipal, @linkPrincipal, @fullPath, @description);">
+                                                <ui:ExecuteNonQuery.Parameters>
+                                                  <InArgument x:TypeArguments="s:DateTime" x:Key="date">[datetime.Now]</InArgument>
+                                                  <InArgument x:TypeArguments="x:String" x:Key="source">Camera Deputatilor</InArgument>
+                                                  <InArgument x:TypeArguments="x:String" x:Key="link">[in_URL]</InArgument>
+                                                  <InArgument x:TypeArguments="x:String" x:Key="nameNews">[extractDataTable.Rows(i)(0).ToString]</InArgument>
+                                                  <InArgument x:TypeArguments="x:String" x:Key="linkNews">["www.cdep.ro"+extractDataTable.Rows(i)(1).toString]</InArgument>
+                                                  <InArgument x:TypeArguments="x:Byte" x:Key="unique">0</InArgument>
+                                                  <InArgument x:TypeArguments="x:String" x:Key="final">OK</InArgument>
+                                                  <InArgument x:TypeArguments="x:String" x:Key="location">[in_FolderPath]</InArgument>
+                                                  <InArgument x:TypeArguments="x:String" x:Key="namePrincipal">[extractDataTable.Rows(i)(0).ToString+".pdf"]</InArgument>
+                                                  <InArgument x:TypeArguments="x:String" x:Key="linkPrincipal">[in_Root+pathLink.ToString]</InArgument>
+                                                  <InArgument x:TypeArguments="x:String" x:Key="fullPath">[in_FolderPath+extractDataTable.Rows(i)(0).ToString+".pdf"]</InArgument>
+                                                  <InArgument x:TypeArguments="x:String" x:Key="description">[description]</InArgument>
+                                                </ui:ExecuteNonQuery.Parameters>
+                                              </ui:ExecuteNonQuery>
+                                            </TryCatch.Finally>
+                                          </TryCatch>
+                                        </Sequence>
+                                      </If.Else>
+                                    </If>
+                                    <Assign DisplayName="Increment counter" sap:VirtualizedContainerService.HintSize="797,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Int32">[counter]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Int32">[counter+1]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign DisplayName="Decrement i" sap:VirtualizedContainerService.HintSize="797,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Int32">[i]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Int32">[i-1]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <ui:CloseTab Browser="{x:Null}" DisplayName="Close Tab" sap:VirtualizedContainerService.HintSize="797,22" sap2010:WorkflowViewState.IdRef="CloseTab_1" />
+                                  </Sequence>
+                                </ActivityAction>
+                              </ui:BrowserScope.Body>
+                            </ui:BrowserScope>
+                          </ActivityAction>
+                        </ui:OpenBrowser.Body>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:OpenBrowser>
+                    </ui:InterruptibleWhile.Body>
+                  </ui:InterruptibleWhile>
+                  <ui:CloseTab Browser="{x:Null}" DisplayName="Close Tab" sap:VirtualizedContainerService.HintSize="943,22" sap2010:WorkflowViewState.IdRef="CloseTab_2" />
+                </Sequence>
+              </ActivityAction>
+            </ui:BrowserScope.Body>
+          </ui:BrowserScope>
+        </ActivityAction>
+      </ui:OpenBrowser.Body>
+    </ui:OpenBrowser>
+  </Sequence>
+</Activity>
